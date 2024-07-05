@@ -6,6 +6,9 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.example.bookmanagement.configs.Constants;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 @Entity
 @Table(name = "book")
@@ -19,11 +22,9 @@ public class Book {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id", nullable = false)
-    private Author author;
-
     @Column(name = "published_date")
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_FORMAT)
     private Date publishedDate;
 
     @Column(name = "genre")
@@ -32,6 +33,10 @@ public class Book {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_id", nullable = false)
+    private Author author;
+    
     public Long getId() {
         return id;
     }
