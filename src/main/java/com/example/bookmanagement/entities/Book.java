@@ -1,23 +1,22 @@
 package com.example.bookmanagement.entities;
 
-
-
 import java.util.Date;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-
-
 import com.example.bookmanagement.configs.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-
+/**
+ * Entity class representing a book.
+ */
 @Entity
 @Table(name = "book")
 public class Book {
-@Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
@@ -43,54 +42,102 @@ public class Book {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
-    
-    /** 
-     * @return Long
+
+    /**
+     * Get the ID of the book.
+     *
+     * @return the ID of the book
      */
     public Long getId() {
         return id;
     }
 
-    
-    /** 
-     * @return String
+    /**
+     * Set the title of the book.
+     *
+     * @param title the title to set
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Get the title of the book.
+     *
+     * @return the title of the book
      */
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Author getAuthor() {
-        return author;
-    }
-
+    /**
+     * Set the author of the book.
+     *
+     * @param author the author to set
+     */
     public void setAuthor(Author author) {
         this.author = author;
     }
 
+    /**
+     * Get the author of the book.
+     *
+     * @return the author of the book
+     */
+    public Author getAuthor() {
+        return author;
+    }
+
+    /**
+     * Get the published date of the book.
+     *
+     * @return the published date of the book
+     */
     public Date getPublishedDate() {
         return publishedDate;
     }
 
+    /**
+     * Set the published date of the book.
+     *
+     * @param publishedDate the published date to set
+     */
     public void setPublishedDate(Date publishedDate) {
         this.publishedDate = publishedDate;
     }
 
+    /**
+     * Get the genre of the book.
+     *
+     * @return the genre of the book
+     */
     public String getGenre() {
         return genre;
     }
 
+    /**
+     * Set the genre of the book.
+     *
+     * @param genre the genre to set
+     */
     public void setGenre(String genre) {
         this.genre = genre;
     }
 
+    /**
+     * Get the description of the book.
+     *
+     * @return the description of the book
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Set the description of the book.
+     *
+     * @param description the description to set
+     */
     public void setDescription(String description) {
         this.description = description;
     }

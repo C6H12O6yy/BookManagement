@@ -12,55 +12,77 @@ import com.example.bookmanagement.exception.ResourceNotFoundException;
 import com.example.bookmanagement.repositories.BookRepository;
 import com.example.bookmanagement.services.BookService;
 
-
 @Service
-public class BookServiceImpl implements BookService{
-	@Autowired
-	private BookRepository bookRepository;
+public class BookServiceImpl implements BookService {
 
-	
-	/** 
-	 * @param book
-	 * @return Book
-	 */
-	@Override
-	public Book saveBook(Book book) {
-		return bookRepository.save(book);
-	}
+    @Autowired
+    private BookRepository bookRepository;
 
-	
-	/** 
-	 * @param id
-	 * @param bookDetails
-	 * @return Book
-	 */
-	@Override
-	public Book updateBook(Long id, Book bookDetails) {
-		Book book = bookRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Book not found for this id :: " + id));
-		
-		book.setTitle(bookDetails.getTitle());
-		book.setPublishedDate(bookDetails.getPublishedDate());
-		book.setGenre(bookDetails.getGenre());
-		book.setDescription(bookDetails.getDescription());
-		book.setAuthor(bookDetails.getAuthor());
-		return bookRepository.save(book);
-	}
+    /**
+     * Save a new book or update an existing one.
+     *
+     * @param book the book to save or update
+     * @return the saved or updated book
+     */
+    @Override
+    public Book saveBook(Book book) {
+        return bookRepository.save(book);
+    }
 
-	@Override
-	public void deleteBook(Long id) {
-		Book book = bookRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Book not found for this id :: " + id));
-		bookRepository.delete(book);
-	}
+    /**
+     * Update an existing book.
+     *
+     * @param id          the ID of the book to update
+     * @param bookDetails the updated details of the book
+     * @return the updated book
+     * @throws ResourceNotFoundException if no book is found with the given ID
+     */
+    @Override
+    public Book updateBook(Long id, Book bookDetails) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found for this id :: " + id));
 
-	@Override
-	public Page<Book> getBooks(Pageable pageable) {
-		return bookRepository.findAll(pageable);
-	}
+        book.setTitle(bookDetails.getTitle());
+        book.setPublishedDate(bookDetails.getPublishedDate());
+        book.setGenre(bookDetails.getGenre());
+        book.setDescription(bookDetails.getDescription());
+        book.setAuthor(bookDetails.getAuthor());
 
-	@Override
-	public Optional<Book> getBookByTitle(String title) {
-		return bookRepository.findByTitle(title);
-	}
+        return bookRepository.save(book);
+    }
+
+    /**
+     * Delete a book by ID.
+     *
+     * @param id the ID of the book to delete
+     * @throws ResourceNotFoundException if no book is found with the given ID
+     */
+    @Override
+    public void deleteBook(Long id) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found for this id :: " + id));
+        bookRepository.delete(book);
+    }
+
+    /**
+     * Retrieve all books with pagination.
+     *
+     * @param pageable pagination information
+     * @return a page of books
+     */
+    @Override
+    public Page<Book> getBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable);
+    }
+
+    /**
+     * Retrieve a book by title.
+     *
+     * @param title the title of the book to retrieve
+     * @return an optional containing the book, or empty if not found
+     */
+    @Override
+    public Optional<Book> getBookByTitle(String title) {
+        return bookRepository.findByTitle(title);
+    }
 }

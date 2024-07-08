@@ -6,7 +6,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.bookmanagement.entities.Author;
 
-public interface AuthorRepository extends JpaRepository<Author,Long> {
+/**
+ * Repository interface for managing Author entities.
+ */
+public interface AuthorRepository extends JpaRepository<Author, Long> {
 
+    /**
+     * Find authors by their name containing the specified keyword.
+     *
+     * @param keyword the keyword to search for in author names
+     * @return a list of authors whose names contain the keyword
+     */
     List<Author> findByAuthorNameContaining(String keyword);
-} 
+}

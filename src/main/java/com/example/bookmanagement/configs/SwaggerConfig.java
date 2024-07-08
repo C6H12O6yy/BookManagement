@@ -10,13 +10,18 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+/**
+ * Configuration class for Swagger.
+ * This class configures Swagger for API documentation in the application.
+ */
 @Configuration
 @EnableWebMvc
 public class SwaggerConfig implements WebMvcConfigurer {
 
-    
-    /** 
-     * @return Docket
+    /**
+     * Configures the Swagger Docket bean.
+     * 
+     * @return a configured Docket instance for Swagger 2 documentation.
      */
     @Bean
     public Docket api() {
@@ -26,14 +31,16 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .build().apiInfo(apiInfoMetaData());
     }
 
-    
-    /** 
-     * @return ApiInfo
+    /**
+     * Provides API information for Swagger.
+     * 
+     * @return an ApiInfo instance containing metadata for the API.
      */
     private ApiInfo apiInfoMetaData() {
-
         return new ApiInfoBuilder()
+                .title("Book Management API")
+                .description("API documentation for the Book Management application.")
+                .version("1.0.0")
                 .build();
     }
-
 }
