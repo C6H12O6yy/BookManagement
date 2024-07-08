@@ -5,6 +5,10 @@ package com.example.bookmanagement.entities;
 import java.util.Date;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+
 
 import com.example.bookmanagement.configs.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -13,13 +17,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 @Table(name = "book")
 public class Book {
-
-    @Id
+@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
     @Column(name = "title", nullable = false)
+    @NotBlank(message = "Title name is mandatory")
+    @Size(max = 255, message = "Title name must be less than 255 characters")
     private String title;
 
     @Column(name = "published_date")
@@ -28,6 +33,8 @@ public class Book {
     private Date publishedDate;
 
     @Column(name = "genre")
+    @NotBlank(message = "Genre name is mandatory")
+    @Size(max = 255, message = "Genre name must be less than 255 characters")
     private String genre;
 
     @Column(name = "description", columnDefinition = "TEXT")
@@ -36,13 +43,8 @@ public class Book {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
-    
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTitle() {

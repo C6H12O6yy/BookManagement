@@ -9,9 +9,7 @@ import javax.validation.constraints.Size;
 import com.example.bookmanagement.configs.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.Data;
-
-@Data
+import lombok.Data; 
 public class AuthorRequest {
     private Long id;
 
@@ -30,4 +28,44 @@ public class AuthorRequest {
 
     @Size(max = 1000, message = "Description must be less than 1000 characters")
     private String description;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
