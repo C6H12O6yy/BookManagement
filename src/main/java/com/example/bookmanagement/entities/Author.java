@@ -35,12 +35,20 @@ public class Author {
     @JsonIgnore
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> books;
+    
+    /** 
+     * @return Long
+     */
     // Getters and setters
     public Long getId() {
         return id;
     }
 
 
+    
+    /** 
+     * @return String
+     */
     public String getAuthorName() {
         return authorName;
     }

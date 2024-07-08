@@ -26,6 +26,11 @@ public class AuthorController {
     @Autowired
     private AuthorService authorService;
 
+    
+    /** 
+     * @param Constants.DEFAULT_PAGE_NUMBER
+     * @return ResponseEntity<Page<AuthorResponse>>
+     */
     @GetMapping
     public ResponseEntity<Page<AuthorResponse>> getAllAuthors(@RequestParam(defaultValue =  Constants.DEFAULT_PAGE_NUMBER) int page,
                                               @RequestParam(defaultValue = Constants.DEFAULT_PAGE_SIZE) int size) {
@@ -33,6 +38,11 @@ public class AuthorController {
         return ResponseEntity.ok(authorService.findAll(pageable));
     }
 
+    
+    /** 
+     * @param id
+     * @return ResponseEntity<AuthorResponse>
+     */
     @GetMapping("/{id}")
     public ResponseEntity<AuthorResponse> getAuthorById(@PathVariable final Long id) {
         return ResponseEntity.ok(authorService.get(id));

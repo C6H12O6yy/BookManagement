@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.bookmanagement.entities.Book;
 
-@Service
 public interface BookService {
 	Book saveBook(Book book);
     Book updateBook(Long id, Book bookDetails);

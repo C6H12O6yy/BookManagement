@@ -18,11 +18,22 @@ public class BookServiceImpl implements BookService{
 	@Autowired
 	private BookRepository bookRepository;
 
+	
+	/** 
+	 * @param book
+	 * @return Book
+	 */
 	@Override
 	public Book saveBook(Book book) {
 		return bookRepository.save(book);
 	}
 
+	
+	/** 
+	 * @param id
+	 * @param bookDetails
+	 * @return Book
+	 */
 	@Override
 	public Book updateBook(Long id, Book bookDetails) {
 		Book book = bookRepository.findById(id)

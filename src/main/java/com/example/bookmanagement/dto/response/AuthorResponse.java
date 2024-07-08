@@ -17,10 +17,18 @@ public class AuthorResponse {
 
     private String description;
 
+    
+    /** 
+     * @return Long
+     */
     public Long getId() {
         return id;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getAuthorName() {
         return authorName;
     }

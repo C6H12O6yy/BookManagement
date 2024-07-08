@@ -27,6 +27,11 @@ public class AuthorServiceImpl implements AuthorService {
         this.authorRepository = authorRepository;
         this.modelMapper = modelMapper;
     }
+    
+    /** 
+     * @param keyword
+     * @return List<AuthorResponse>
+     */
     @Override
     public List<AuthorResponse> search(String keyword) {
         List<Author> authors = authorRepository.findByAuthorNameContaining(keyword);
@@ -35,6 +40,11 @@ public class AuthorServiceImpl implements AuthorService {
                 .collect(Collectors.toList());
     }
 
+    
+    /** 
+     * @param pageable
+     * @return Page<AuthorResponse>
+     */
     @Override
     public Page<AuthorResponse> findAll(Pageable pageable) {
         Page<Author> authors = authorRepository.findAll(pageable);

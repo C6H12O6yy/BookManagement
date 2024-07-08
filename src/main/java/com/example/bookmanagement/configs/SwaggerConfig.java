@@ -14,6 +14,10 @@ import springfox.documentation.spring.web.plugins.Docket;
 @EnableWebMvc
 public class SwaggerConfig implements WebMvcConfigurer {
 
+    
+    /** 
+     * @return Docket
+     */
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select()
@@ -22,6 +26,10 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .build().apiInfo(apiInfoMetaData());
     }
 
+    
+    /** 
+     * @return ApiInfo
+     */
     private ApiInfo apiInfoMetaData() {
 
         return new ApiInfoBuilder()

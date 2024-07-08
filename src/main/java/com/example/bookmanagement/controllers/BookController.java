@@ -30,12 +30,23 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 
+	
+	/** 
+	 * @param book
+	 * @return ResponseEntity<Book>
+	 */
 	@PostMapping
 	public ResponseEntity<Book> createBook(@Valid @RequestBody Book book) {
 		Book savedBook = bookService.saveBook(book);
 		return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
 	}
 
+	
+	/** 
+	 * @param id
+	 * @param bookDetails
+	 * @return ResponseEntity<Book>
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<Book> updateBook(@PathVariable Long id,@Valid @RequestBody Book bookDetails) {
 		Book updatedBook = bookService.updateBook(id, bookDetails);

@@ -15,6 +15,12 @@ import org.springframework.web.context.request.WebRequest;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+        
+        /** 
+         * @param exception
+         * @param webRequest
+         * @return ResponseEntity<ErrorDetails>
+         */
         @ExceptionHandler(DataAccessException.class)
         public ResponseEntity<ErrorDetails> handleDataAccessException(DataAccessException exception,
                                                                                 WebRequest webRequest){
@@ -23,6 +29,12 @@ public class GlobalExceptionHandler {
                 return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+        
+        /** 
+         * @param exception
+         * @param webRequest
+         * @return ResponseEntity<ErrorDetails>
+         */
         @ExceptionHandler(Exception.class)
         public ResponseEntity<ErrorDetails> handleGlobalException(Exception exception,
                                                                 WebRequest webRequest){

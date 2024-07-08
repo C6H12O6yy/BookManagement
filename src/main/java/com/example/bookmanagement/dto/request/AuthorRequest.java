@@ -29,10 +29,18 @@ public class AuthorRequest {
     @Size(max = 1000, message = "Description must be less than 1000 characters")
     private String description;
 
+    
+    /** 
+     * @return Long
+     */
     public Long getId() {
         return id;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getAuthorName() {
         return authorName;
     }
