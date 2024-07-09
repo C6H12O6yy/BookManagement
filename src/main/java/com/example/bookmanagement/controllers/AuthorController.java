@@ -45,18 +45,13 @@ public class AuthorController {
     @ApiOperation(value = "Get all authors with pagination")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved authors"),
-            @ApiResponse(code = 400, message = "Invalid input data"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
     public ResponseEntity<Page<AuthorResponse>> getAllAuthors(
             @ApiParam(value = "Page number (default is 0)", defaultValue = Constants.DEFAULT_PAGE_NUMBER) @RequestParam(defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page,
             @ApiParam(value = "Page size (default is 10)", defaultValue = Constants.DEFAULT_PAGE_SIZE) @RequestParam(defaultValue = Constants.DEFAULT_PAGE_SIZE) int size) {
-        try {
             Pageable pageable = PageRequest.of(page, size);
             return ResponseEntity.ok(authorService.findAll(pageable));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
     /**
@@ -75,11 +70,8 @@ public class AuthorController {
     })
     public ResponseEntity<AuthorResponse> getAuthorById(
             @ApiParam(value = "ID of the author to retrieve", required = true) @PathVariable final Long id) {
-        try {
             return ResponseEntity.ok(authorService.get(id));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+
     }
 
     /**
@@ -100,11 +92,7 @@ public class AuthorController {
     })
     public ResponseEntity<Long> createAuthor(
             @ApiParam(value = "Author data to create", required = true) @RequestBody final AuthorRequest authorRequest) {
-        try {
             return new ResponseEntity<>(authorService.create(authorRequest), HttpStatus.CREATED);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
     /**
@@ -128,13 +116,9 @@ public class AuthorController {
     public ResponseEntity<String> updateAuthor(
             @ApiParam(value = "ID of the author to update", required = true) @PathVariable final Long id,
             @ApiParam(value = "Author data to update", required = true) @RequestBody final AuthorRequest authorRequest) {
-        try {
             authorService.update(id, authorRequest);
             String message = String.format(MessagesConstants.AUTHOR_UPDATE_SUCCESS, id);
             return ResponseEntity.ok(message);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
     /**
@@ -153,13 +137,9 @@ public class AuthorController {
     })
     public ResponseEntity<String> deleteAuthor(
             @ApiParam(value = "ID of the author to delete", required = true) @PathVariable final Long id) {
-        try {
             authorService.delete(id);
             String message = String.format(MessagesConstants.AUTHOR_DELETE_SUCCESS, id);
             return ResponseEntity.ok(message);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
     /**
@@ -177,12 +157,7 @@ public class AuthorController {
     })
     public ResponseEntity<List<AuthorResponse>> searchAuthorsByKeyword(
             @ApiParam(value = "Keyword to search in author names", required = true) @RequestParam("q") final String keyword) {
-        try {
             List<AuthorResponse> authors = authorService.search(keyword);
             return ResponseEntity.ok(authors);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
-
 }

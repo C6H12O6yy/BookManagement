@@ -9,7 +9,7 @@ import com.example.bookmanagement.entities.Book;
 /**
  * Repository interface for managing Book entities.
  */
-public interface BookRepository extends JpaRepository<Book, Long> {
+public interface IBookRepository extends JpaRepository<Book, Long> {
 
     /**
      * Find a book by its title.

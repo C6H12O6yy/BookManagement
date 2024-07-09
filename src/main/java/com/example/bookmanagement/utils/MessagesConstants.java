@@ -2,9 +2,6 @@ package com.example.bookmanagement.utils;
 
 import org.springframework.stereotype.Component;
 
-
-import org.springframework.stereotype.Component;
-
 /**
  * A class that holds constant keys for validation and error messages used throughout the application.
  */
@@ -67,4 +64,47 @@ public class MessagesConstants {
      * Use with String.format to provide the specific author ID.
      */
     public static final String AUTHOR_UPDATE_SUCCESS = "author.update.success";
+    
+    /**
+     * Key for the error message indicating that an book with the specified ID was not found.
+     */
+    public static final String BOOK_NOT_FOUND_ERROR = "book.not-found";
+    
+    /**
+     * Key for the error message indicating that the book size validation has failed.
+     */
+    public static final String BOOK_SIZE_VALIDATION_ERROR = "book.size.validation";
+    
+    /**
+     * Key for the error message indicating that a mandatory book field is missing.
+     */
+    public static final String BOOK_MANDATORY_VALIDATION_ERROR = "book.mandatory.validation";
+    
+//   
+    
+    /**
+     * Key for the book title variable.
+     */
+    public static final String BOOK_VARIABLES_TITLE = "book.variables.title";
+    
+    /**
+     * Key for the book published date variable.
+     */
+    public static final String BOOK_VARIABLES_PUBLISHEDDATE = "book.variables.publishedDate";
+    
+    /**
+     * Key for the book genre variable.
+     */
+    public static final String BOOK_VARIABLES_GENRE = "book.variables.genre";
+    
+    /**
+     * Key for the book description variable.
+     */
+    public static final String BOOK_VARIABLES_DESCRIPTION = "book.variables.description";
+    
+    /**
+     * Key for the book author ID variable.
+     */
+    public static final String BOOK_VARIABLES_AUTHORID = "book.variables.authorId";
+
 }

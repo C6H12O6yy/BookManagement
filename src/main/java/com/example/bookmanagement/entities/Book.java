@@ -4,9 +4,11 @@ import java.util.Date;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.example.bookmanagement.utils.Constants;
+import com.example.bookmanagement.utils.MessagesConstants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
@@ -22,18 +24,19 @@ public class Book {
     private Long id;
 
     @Column(name = "title", nullable = false)
-    @NotBlank(message = "Title name is mandatory")
-    @Size(max = 255, message = "Title name must be less than 255 characters")
+    @NotBlank(message = MessagesConstants.BOOK_VARIABLES_TITLE + MessagesConstants.BOOK_SIZE_VALIDATION_ERROR)
+    @Size(max = 255, message = MessagesConstants.BOOK_VARIABLES_TITLE + MessagesConstants.BOOK_SIZE_VALIDATION_ERROR)
     private String title;
 
     @Column(name = "published_date")
+    @NotNull(message = MessagesConstants.BOOK_VARIABLES_PUBLISHEDDATE + MessagesConstants.BOOK_SIZE_VALIDATION_ERROR)
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_FORMAT)
     private Date publishedDate;
 
     @Column(name = "genre")
-    @NotBlank(message = "Genre name is mandatory")
-    @Size(max = 255, message = "Genre name must be less than 255 characters")
+    @NotBlank(message = MessagesConstants.BOOK_VARIABLES_GENRE + MessagesConstants.BOOK_SIZE_VALIDATION_ERROR)
+    @Size(max = 255, message = MessagesConstants.BOOK_VARIABLES_GENRE + MessagesConstants.BOOK_SIZE_VALIDATION_ERROR)
     private String genre;
 
     @Column(name = "description", columnDefinition = "TEXT")

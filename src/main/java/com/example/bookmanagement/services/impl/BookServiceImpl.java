@@ -9,14 +9,15 @@ import org.springframework.stereotype.Service;
 
 import com.example.bookmanagement.entities.Book;
 import com.example.bookmanagement.exception.ResourceNotFoundException;
-import com.example.bookmanagement.repositories.BookRepository;
-import com.example.bookmanagement.services.BookService;
+import com.example.bookmanagement.repositories.IBookRepository;
+import com.example.bookmanagement.services.IBookService;
+import com.example.bookmanagement.utils.MessagesConstants;
 
 @Service
-public class BookServiceImpl implements BookService {
+public class BookServiceImpl implements IBookService {
 
     @Autowired
-    private BookRepository bookRepository;
+    private IBookRepository bookRepository;
 
     /**
      * Save a new book or update an existing one.
@@ -40,7 +41,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book updateBook(Long id, Book bookDetails) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Book not found for this id :: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(MessagesConstants.BOOK_NOT_FOUND_ERROR + id));
 
         book.setTitle(bookDetails.getTitle());
         book.setPublishedDate(bookDetails.getPublishedDate());
@@ -60,7 +61,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteBook(Long id) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Book not found for this id :: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(MessagesConstants.BOOK_NOT_FOUND_ERROR + id));
         bookRepository.delete(book);
     }
 

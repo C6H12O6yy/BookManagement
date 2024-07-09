@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.example.bookmanagement.entities.Book;
 
-public interface BookService {
+public interface IBookService {
 
     /**
      * Saves a new book or updates an existing one.

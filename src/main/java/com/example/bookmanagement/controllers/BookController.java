@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.bookmanagement.entities.Book;
-import com.example.bookmanagement.services.BookService;
+import com.example.bookmanagement.services.IBookService;
 import com.example.bookmanagement.utils.Constants;
 
 /**
@@ -24,7 +24,7 @@ import com.example.bookmanagement.utils.Constants;
 public class BookController {
 
     @Autowired
-    private BookService bookService;
+    private IBookService bookService;
 
     /**
      * Create a new book.
