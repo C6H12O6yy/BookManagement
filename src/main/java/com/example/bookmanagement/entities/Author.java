@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * Entity class representing an author.
  */
 @Entity
-@Table(name = TableConstants.TABLE_NAME)
+@Table(name = TableConstants.TABLE_AUTHOR_NAME)
 public class Author {
 
     @Id

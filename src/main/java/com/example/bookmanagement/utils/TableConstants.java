@@ -8,7 +8,12 @@ public class TableConstants {
     /**
      * Constant for the table name 'book'.
      */
-    public static final String TABLE_NAME = "book";
+    public static final String TABLE_BOOK_NAME = "book";
+
+     /**
+     * Constant for the table name 'book'.
+     */
+    public static final String TABLE_AUTHOR_NAME = "author";
 
     /**
      * Constant for the column 'id' in various tables.

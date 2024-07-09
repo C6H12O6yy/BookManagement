@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * Entity class representing a book.
  */
 @Entity
-@Table(name = TableConstants.TABLE_NAME)
+@Table(name = TableConstants.TABLE_BOOK_NAME)
 public class Book {
 
     @Id
