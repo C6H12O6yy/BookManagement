@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.example.bookmanagement.utils.Constants;
+import com.example.bookmanagement.utils.TableConstants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -13,26 +14,26 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * Entity class representing an author.
  */
 @Entity
-@Table(name = "author")
+@Table(name = TableConstants.TABLE_NAME)
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = TableConstants.COLUMN_ID)
     private Long id;
 
-    @Column(name = "author_name", nullable = false)
+    @Column(name = TableConstants.COLUMN_AUTHOR_NAME, nullable = false)
     private String authorName;
 
-    @Column(name = "birth_date")
+    @Column(name = TableConstants.COLUMN_BIRTH_DATE)
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_FORMAT)
     private Date birthDate;
 
-    @Column(name = "nationality")
+    @Column(name = TableConstants.COLUMN_NATIONALITY)
     private String nationality;
 
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Column(name = TableConstants.COLUMN_DESCRIPTION, columnDefinition = "TEXT")
     private String description;
 
     @JsonIgnore

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.example.bookmanagement.configs.Translator;
 import com.example.bookmanagement.entities.Book;
 import com.example.bookmanagement.exception.ResourceNotFoundException;
 import com.example.bookmanagement.repositories.IBookRepository;
@@ -41,7 +42,7 @@ public class BookServiceImpl implements IBookService {
     @Override
     public Book updateBook(Long id, Book bookDetails) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(MessagesConstants.BOOK_NOT_FOUND_ERROR + id));
+                .orElseThrow(() -> new ResourceNotFoundException(Translator.toLocale(MessagesConstants.BOOK_NOT_FOUND_ERROR) + id));
 
         book.setTitle(bookDetails.getTitle());
         book.setPublishedDate(bookDetails.getPublishedDate());
@@ -61,7 +62,7 @@ public class BookServiceImpl implements IBookService {
     @Override
     public void deleteBook(Long id) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(MessagesConstants.BOOK_NOT_FOUND_ERROR + id));
+                .orElseThrow(() -> new ResourceNotFoundException(Translator.toLocale(MessagesConstants.BOOK_NOT_FOUND_ERROR) + id));
         bookRepository.delete(book);
     }
 

@@ -9,41 +9,42 @@ import javax.validation.constraints.Size;
 
 import com.example.bookmanagement.utils.Constants;
 import com.example.bookmanagement.utils.MessagesConstants;
+import com.example.bookmanagement.utils.TableConstants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * Entity class representing a book.
  */
 @Entity
-@Table(name = "book")
+@Table(name = TableConstants.TABLE_NAME)
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = TableConstants.COLUMN_ID)
     private Long id;
 
-    @Column(name = "title", nullable = false)
-    @NotBlank(message = MessagesConstants.BOOK_VARIABLES_TITLE + MessagesConstants.BOOK_SIZE_VALIDATION_ERROR)
-    @Size(max = 255, message = MessagesConstants.BOOK_VARIABLES_TITLE + MessagesConstants.BOOK_SIZE_VALIDATION_ERROR)
+    @Column(name = TableConstants.COLUMN_TITLE, nullable = false)
+    @NotBlank(message = MessagesConstants.BOOK_VARIABLES_TITLE)
+    @Size(max = 255, message = MessagesConstants.BOOK_SIZE_VALIDATION_ERROR)
     private String title;
 
-    @Column(name = "published_date")
-    @NotNull(message = MessagesConstants.BOOK_VARIABLES_PUBLISHEDDATE + MessagesConstants.BOOK_SIZE_VALIDATION_ERROR)
+    @Column(name = TableConstants.COLUMN_PUBLISHED_DATE)
+    @NotNull(message = MessagesConstants.BOOK_VARIABLES_PUBLISHEDDATE)
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_FORMAT)
     private Date publishedDate;
 
-    @Column(name = "genre")
-    @NotBlank(message = MessagesConstants.BOOK_VARIABLES_GENRE + MessagesConstants.BOOK_SIZE_VALIDATION_ERROR)
-    @Size(max = 255, message = MessagesConstants.BOOK_VARIABLES_GENRE + MessagesConstants.BOOK_SIZE_VALIDATION_ERROR)
+    @Column(name = TableConstants.COLUMN_GENRE)
+    @NotBlank(message = MessagesConstants.BOOK_VARIABLES_GENRE)
+    @Size(max = 255, message = MessagesConstants.BOOK_VARIABLES_GENRE)
     private String genre;
 
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Column(name = TableConstants.COLUMN_DESCRIPTION, columnDefinition = "TEXT")
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id", nullable = false)
+    @JoinColumn(name = TableConstants.COLUMN_AUTHOR_ID, nullable = false)
     private Author author;
 
     /**
