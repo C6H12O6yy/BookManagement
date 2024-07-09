@@ -2,7 +2,7 @@ package com.example.bookmanagement.dto.response;
 
 import java.util.Date;
 
-import com.example.bookmanagement.configs.Constants;
+import com.example.bookmanagement.utils.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;

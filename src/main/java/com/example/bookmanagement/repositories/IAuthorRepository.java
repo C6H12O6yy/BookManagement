@@ -9,7 +9,7 @@ import com.example.bookmanagement.entities.Author;
 /**
  * Repository interface for managing Author entities.
  */
-public interface AuthorRepository extends JpaRepository<Author, Long> {
+public interface IAuthorRepository extends JpaRepository<Author, Long> {
 
     /**
      * Find authors by their name containing the specified keyword.

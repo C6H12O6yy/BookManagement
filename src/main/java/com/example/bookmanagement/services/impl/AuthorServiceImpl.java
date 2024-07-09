@@ -4,25 +4,29 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.bookmanagement.configs.Translator;
 import com.example.bookmanagement.dto.request.AuthorRequest;
 import com.example.bookmanagement.dto.response.AuthorResponse;
 import com.example.bookmanagement.entities.Author;
-import com.example.bookmanagement.repositories.AuthorRepository;
-import com.example.bookmanagement.services.AuthorService;
+import com.example.bookmanagement.exception.ResourceNotFoundException;
+import com.example.bookmanagement.repositories.IAuthorRepository;
+import com.example.bookmanagement.services.IAuthorService;
+import com.example.bookmanagement.utils.MessagesConstants;
 
 @Service
-public class AuthorServiceImpl implements AuthorService {
+public class AuthorServiceImpl implements IAuthorService {
 
-    private final AuthorRepository authorRepository;
+    private final IAuthorRepository authorRepository;
     private final ModelMapper modelMapper;
 
-    public AuthorServiceImpl(AuthorRepository authorRepository, ModelMapper modelMapper) {
+    public AuthorServiceImpl(IAuthorRepository authorRepository, ModelMapper modelMapper) {
         this.authorRepository = authorRepository;
         this.modelMapper = modelMapper;
     }
@@ -66,7 +70,7 @@ public class AuthorServiceImpl implements AuthorService {
         if (author.isPresent()) {
             return modelMapper.map(author.get(), AuthorResponse.class);
         } else {
-            throw new IllegalArgumentException("Cannot find author with id: " + id);
+            throw new ResourceNotFoundException(Translator.toLocale(MessagesConstants.AUTHOR_NOT_FOUND_ERROR)+id);
         }
     }
 
@@ -100,7 +104,7 @@ public class AuthorServiceImpl implements AuthorService {
             modelMapper.map(authorRequest, author);
             authorRepository.save(author);
         } else {
-            throw new IllegalArgumentException("Cannot find author with id: " + id);
+            throw new ResourceNotFoundException(Translator.toLocale(MessagesConstants.AUTHOR_NOT_FOUND_ERROR)+id);
         }
     }
 
@@ -117,7 +121,7 @@ public class AuthorServiceImpl implements AuthorService {
         if (existingAuthor.isPresent()) {
             authorRepository.delete(existingAuthor.get());
         } else {
-            throw new IllegalArgumentException("Cannot find author with id: " + id);
+            throw new ResourceNotFoundException(Translator.toLocale(MessagesConstants.AUTHOR_NOT_FOUND_ERROR)+id);
         }
     }
 

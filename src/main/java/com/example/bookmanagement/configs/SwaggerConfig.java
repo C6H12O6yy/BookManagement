@@ -3,6 +3,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.example.bookmanagement.utils.Constants;
+
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -26,8 +29,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.bookmanagement"))
-                .paths(PathSelectors.regex("/.*"))
+                .apis(RequestHandlerSelectors.basePackage(Constants.BASE_PACKAGE))
+                .paths(PathSelectors.regex(Constants.PATH_REGEX))
                 .build().apiInfo(apiInfoMetaData());
     }
 
@@ -38,9 +41,9 @@ public class SwaggerConfig implements WebMvcConfigurer {
      */
     private ApiInfo apiInfoMetaData() {
         return new ApiInfoBuilder()
-                .title("Book Management API")
-                .description("API documentation for the Book Management application.")
-                .version("1.0.0")
+                .title(Constants.API_TITLE)
+                .description(Constants.API_DESCRIPTION)
+                .version(Constants.API_VERSION)
                 .build();
     }
 }

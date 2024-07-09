@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.example.bookmanagement.dto.request.AuthorRequest;
 import com.example.bookmanagement.dto.response.AuthorResponse;
 
-public interface AuthorService {
+public interface IAuthorService {
 
     /**
      * Retrieve all authors with pagination.

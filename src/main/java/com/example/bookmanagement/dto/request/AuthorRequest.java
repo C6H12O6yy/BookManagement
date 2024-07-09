@@ -7,32 +7,39 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
 
-import com.example.bookmanagement.configs.Constants;
+import com.example.bookmanagement.utils.Constants;
+import com.example.bookmanagement.utils.MessagesConstants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.Data;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * DTO class representing the request payload for creating or updating an author.
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class AuthorRequest {
     private Long id;
 
-    @NotBlank(message = "Author name is mandatory")
-    @Size(max = 255, message = "Author name must be less than 255 characters")
+   
+    @NotNull(message = MessagesConstants.AUTHOR_NAME_MANDATORY)
+    @Size(max = 255, message =MessagesConstants.AUTHOR_NAME_SIZE )
     private String authorName;
 
-    @NotNull(message = "Birth date is mandatory")
-    @PastOrPresent(message = "Birth date must be in the past or present")
+    @NotNull(message =  MessagesConstants.BIRTH_DATE_MANDATORY )
+    @PastOrPresent(message = MessagesConstants.BIRTH_DATE_PAST_OR_PRESENT )
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_FORMAT)
     private Date birthDate;
 
-    @NotBlank(message = "Nationality is mandatory")
-    @Size(max = 100, message = "Nationality must be less than 100 characters")
+    @NotBlank(message = MessagesConstants.NATIONALITY_MANDATORY )
+    @Size(max = 100, message = MessagesConstants.NATIONALITY_SIZE)
     private String nationality;
 
-    @Size(max = 1000, message = "Description must be less than 1000 characters")
+    @Size(max = 1000, message = MessagesConstants.DESCRIPTION_SIZE )
     private String description;
 
     /**

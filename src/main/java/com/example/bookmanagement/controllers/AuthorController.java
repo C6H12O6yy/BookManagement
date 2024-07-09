@@ -2,8 +2,6 @@ package com.example.bookmanagement.controllers;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,96 +9,180 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.bookmanagement.configs.Constants;
 import com.example.bookmanagement.dto.request.AuthorRequest;
 import com.example.bookmanagement.dto.response.AuthorResponse;
-import com.example.bookmanagement.services.AuthorService;
+import com.example.bookmanagement.services.IAuthorService;
+import com.example.bookmanagement.utils.Constants;
+import com.example.bookmanagement.utils.MessagesConstants;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.data.domain.Pageable;
 
 /**
- * REST controller for managing authors.
+ * Controller class for handling operations related to authors.
+ * All endpoints in this controller are mapped under "/authors".
  */
 @RestController
 @RequestMapping("/authors")
+@Api(tags = "Author Management")
 public class AuthorController {
 
     @Autowired
-    private AuthorService authorService;
+    private IAuthorService authorService;
 
     /**
-     * Get all authors with pagination.
+     * Endpoint to retrieve all authors with pagination.
      *
-     * @param page the page number, default is {@value Constants#DEFAULT_PAGE_NUMBER}
-     * @param size the page size, default is {@value Constants#DEFAULT_PAGE_SIZE}
-     * @return a {@link ResponseEntity} containing a page of {@link AuthorResponse}
+     * @param page The page number for pagination (default is 0).
+     * @param size The size of each page (default is 10).
+     * @return ResponseEntity with a page of AuthorResponse objects.
      */
     @GetMapping
-    public ResponseEntity<Page<AuthorResponse>> getAllAuthors(@RequestParam(defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page,
-                                                              @RequestParam(defaultValue = Constants.DEFAULT_PAGE_SIZE) int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(authorService.findAll(pageable));
+    @ApiOperation(value = "Get all authors with pagination")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved authors"),
+            @ApiResponse(code = 400, message = "Invalid input data"),
+            @ApiResponse(code = 500, message = "Internal server error")
+    })
+    public ResponseEntity<Page<AuthorResponse>> getAllAuthors(
+            @ApiParam(value = "Page number (default is 0)", defaultValue = Constants.DEFAULT_PAGE_NUMBER) @RequestParam(defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page,
+            @ApiParam(value = "Page size (default is 10)", defaultValue = Constants.DEFAULT_PAGE_SIZE) @RequestParam(defaultValue = Constants.DEFAULT_PAGE_SIZE) int size) {
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+            return ResponseEntity.ok(authorService.findAll(pageable));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     /**
-     * Get an author by ID.
+     * Endpoint to retrieve an author by ID.
      *
-     * @param id the ID of the author
-     * @return a {@link ResponseEntity} containing the {@link AuthorResponse} of the requested author
+     * @param id The ID of the author to retrieve.
+     * @return ResponseEntity with the AuthorResponse object corresponding to the
+     *         ID.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<AuthorResponse> getAuthorById(@PathVariable final Long id) {
-        return ResponseEntity.ok(authorService.get(id));
+    @ApiOperation(value = "Get author by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved author"),
+            @ApiResponse(code = 404, message = "Author not found"),
+            @ApiResponse(code = 500, message = "Internal server error")
+    })
+    public ResponseEntity<AuthorResponse> getAuthorById(
+            @ApiParam(value = "ID of the author to retrieve", required = true) @PathVariable final Long id) {
+        try {
+            return ResponseEntity.ok(authorService.get(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     /**
-     * Create a new author.
+     * Endpoint to create a new author.
      *
-     * @param authorRequest the request object containing the details of the new author
-     * @return a {@link ResponseEntity} containing the ID of the created author
+     * @param authorRequest The request body containing author data to be created.
+     *                      Required fields include author's name, birth date,
+     *                      nationality, and description.
+     * @return ResponseEntity with the HTTP status code 201 (Created) and the ID of
+     *         the created author.
      */
     @PostMapping
-    public ResponseEntity<Long> createAuthor(@Valid @RequestBody final AuthorRequest authorRequest) {
-        return new ResponseEntity<>(authorService.create(authorRequest), HttpStatus.CREATED);
+    @ApiOperation(value = "Create a new author")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Author successfully created"),
+            @ApiResponse(code = 400, message = "Invalid input data"),
+            @ApiResponse(code = 500, message = "Internal server error")
+    })
+    public ResponseEntity<Long> createAuthor(
+            @ApiParam(value = "Author data to create", required = true) @RequestBody final AuthorRequest authorRequest) {
+        try {
+            return new ResponseEntity<>(authorService.create(authorRequest), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     /**
-     * Update an existing author.
+     * Endpoint to update an existing author.
      *
-     * @param id the ID of the author to update
-     * @param authorRequest the request object containing the updated details of the author
-     * @return a {@link ResponseEntity} with an empty body
+     * @param id            The ID of the author to update.
+     * @param authorRequest The request body containing updated author data.
+     *                      Required fields include author's name, birth date,
+     *                      nationality, and description.
+     * @return ResponseEntity with a success message indicating the author was
+     *         updated successfully.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateAuthor(@PathVariable final Long id, @Valid @RequestBody final AuthorRequest authorRequest) {
-        authorService.update(id, authorRequest);
-        return ResponseEntity.ok().build();
+    @ApiOperation(value = "Update an existing author")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Author successfully updated"),
+            @ApiResponse(code = 400, message = "Invalid input data"),
+            @ApiResponse(code = 404, message = "Author not found"),
+            @ApiResponse(code = 500, message = "Internal server error")
+    })
+    public ResponseEntity<String> updateAuthor(
+            @ApiParam(value = "ID of the author to update", required = true) @PathVariable final Long id,
+            @ApiParam(value = "Author data to update", required = true) @RequestBody final AuthorRequest authorRequest) {
+        try {
+            authorService.update(id, authorRequest);
+            String message = String.format(MessagesConstants.AUTHOR_UPDATE_SUCCESS, id);
+            return ResponseEntity.ok(message);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     /**
-     * Delete an author by ID.
+     * Endpoint to delete an author by ID.
      *
-     * @param id the ID of the author to delete
-     * @return a {@link ResponseEntity} with an empty body
+     * @param id The ID of the author to delete.
+     * @return ResponseEntity with a success message indicating the author was
+     *         deleted successfully.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAuthor(@PathVariable final Long id) {
-        authorService.delete(id);
-        return ResponseEntity.noContent().build();
+    @ApiOperation(value = "Delete an author by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Author successfully deleted"),
+            @ApiResponse(code = 404, message = "Author not found"),
+            @ApiResponse(code = 500, message = "Internal server error")
+    })
+    public ResponseEntity<String> deleteAuthor(
+            @ApiParam(value = "ID of the author to delete", required = true) @PathVariable final Long id) {
+        try {
+            authorService.delete(id);
+            String message = String.format(MessagesConstants.AUTHOR_DELETE_SUCCESS, id);
+            return ResponseEntity.ok(message);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     /**
-     * Search for authors by keyword.
+     * Endpoint to search authors by keyword in their names.
      *
-     * @param keyword the keyword to search for
-     * @return a {@link ResponseEntity} containing a list of {@link AuthorResponse} that match the search keyword
+     * @param keyword The keyword to search for in author names.
+     * @return ResponseEntity with a list of AuthorResponse objects matching the
+     *         search criteria.
      */
     @GetMapping("/search")
-    public ResponseEntity<List<AuthorResponse>> searchAuthors(@RequestParam("q") final String keyword) {
-        if (keyword.isEmpty()) {
-            throw new IllegalArgumentException("Keyword must not be empty");
+    @ApiOperation(value = "Search authors by keyword")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved authors"),
+            @ApiResponse(code = 500, message = "Internal server error")
+    })
+    public ResponseEntity<List<AuthorResponse>> searchAuthorsByKeyword(
+            @ApiParam(value = "Keyword to search in author names", required = true) @RequestParam("q") final String keyword) {
+        try {
+            List<AuthorResponse> authors = authorService.search(keyword);
+            return ResponseEntity.ok(authors);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        List<AuthorResponse> authors = authorService.search(keyword);
-        return ResponseEntity.ok(authors);
     }
+
 }

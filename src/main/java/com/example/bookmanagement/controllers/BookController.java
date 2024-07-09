@@ -12,9 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.bookmanagement.configs.Constants;
 import com.example.bookmanagement.entities.Book;
 import com.example.bookmanagement.services.BookService;
+import com.example.bookmanagement.utils.Constants;
 
 /**
  * REST controller for managing books.
