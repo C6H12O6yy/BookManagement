@@ -23,4 +23,5 @@ public interface IAuthorRepository extends JpaRepository<Author, Long> {
 
     @Query(value = "CALL GetAuthorsWithBooks()", nativeQuery = true)
     List<Author> getAuthorsWithBooks();
+
 }
