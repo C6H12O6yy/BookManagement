@@ -3,6 +3,8 @@ package com.example.bookmanagement.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 
 import com.example.bookmanagement.entities.Author;
 
@@ -18,4 +20,7 @@ public interface IAuthorRepository extends JpaRepository<Author, Long> {
      * @return a list of authors whose names contain the keyword
      */
     List<Author> findByAuthorNameContaining(String keyword);
+
+    @Query(value = "CALL GetAuthorsWithBooks()", nativeQuery = true)
+    List<Author> getAuthorsWithBooks();
 }

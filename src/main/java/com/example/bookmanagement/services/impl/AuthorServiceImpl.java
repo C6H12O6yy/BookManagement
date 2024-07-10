@@ -67,7 +67,6 @@ public class AuthorServiceImpl implements IAuthorService {
     @Override
     public AuthorResponse get(Long id) {
         Optional<Author> author = authorRepository.findById(id);
-        System.out.println(author.get().getAuthorName());
         if (author.isPresent()) {
             return modelMapper.map(author.get(), AuthorResponse.class);
         } else {
