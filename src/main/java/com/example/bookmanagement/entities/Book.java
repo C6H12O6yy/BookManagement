@@ -25,19 +25,19 @@ public class Book {
     private Long id;
 
     @Column(name = TableConstants.COLUMN_TITLE, nullable = false)
-    @NotBlank(message = MessagesConstants.BOOK_VARIABLES_TITLE)
-    @Size(max = 255, message = MessagesConstants.BOOK_SIZE_VALIDATION_ERROR)
+    @NotBlank(message = MessagesConstants.BOOK_GENRE_MANDATORY)
+    @Size(max = 255, message = MessagesConstants.BOOK_TITLE_SIZE)
     private String title;
 
     @Column(name = TableConstants.COLUMN_PUBLISHED_DATE)
-    @NotNull(message = MessagesConstants.BOOK_VARIABLES_PUBLISHEDDATE)
+    @NotNull(message = MessagesConstants.BOOK_PUBLISHEDDATE_MANDATORY)
     @Temporal(TemporalType.DATE)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constants.DATE_FORMAT)
     private Date publishedDate;
 
     @Column(name = TableConstants.COLUMN_GENRE)
-    @NotBlank(message = MessagesConstants.BOOK_VARIABLES_GENRE)
-    @Size(max = 255, message = MessagesConstants.BOOK_VARIABLES_GENRE)
+    @NotBlank(message = MessagesConstants.BOOK_GENRE_MANDATORY)
+    @Size(max = 255, message = MessagesConstants.BOOK_GENRE_SIZE)
     private String genre;
 
     @Column(name = TableConstants.COLUMN_DESCRIPTION, columnDefinition = "TEXT")

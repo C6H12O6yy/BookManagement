@@ -64,47 +64,37 @@ public class MessagesConstants {
      * Use with String.format to provide the specific author ID.
      */
     public static final String AUTHOR_UPDATE_SUCCESS = "author.update.success";
-    
+
+
+
     /**
      * Key for the error message indicating that an book with the specified ID was not found.
      */
     public static final String BOOK_NOT_FOUND_ERROR = "book.not-found";
-    
+
     /**
-     * Key for the error message indicating that the book size validation has failed.
+     * Key for the error message indicating that title must be less than a specified number of characters.
      */
-    public static final String BOOK_SIZE_VALIDATION_ERROR = "book.size.validation";
-    
+    public static final String BOOK_TITLE_SIZE = "book.title.size";
+
     /**
-     * Key for the error message indicating that a mandatory book field is missing.
+     * Key for the error message indicating that title is mandatory.
      */
-    public static final String BOOK_MANDATORY_VALIDATION_ERROR = "book.mandatory.validation";
-    
-//   
-    
+    public static final String BOOK_TITLE_MANDATORY = "book.title.mandatory";
+
     /**
-     * Key for the book title variable.
+     * Key for the error message indicating that published date is mandatory.
      */
-    public static final String BOOK_VARIABLES_TITLE = "book.variables.title";
-    
+    public static final String BOOK_PUBLISHEDDATE_MANDATORY = "book.publishedDate.mandatory";
+
     /**
-     * Key for the book published date variable.
+     * Key for the error message indicating that genre must be less than a specified number of characters.
      */
-    public static final String BOOK_VARIABLES_PUBLISHEDDATE = "book.variables.publishedDate";
-    
+    public static final String BOOK_GENRE_SIZE = "book.genre.size";
+
     /**
-     * Key for the book genre variable.
+     * Key for the error message indicating that genre is mandatory.
      */
-    public static final String BOOK_VARIABLES_GENRE = "book.variables.genre";
-    
-    /**
-     * Key for the book description variable.
-     */
-    public static final String BOOK_VARIABLES_DESCRIPTION = "book.variables.description";
-    
-    /**
-     * Key for the book author ID variable.
-     */
-    public static final String BOOK_VARIABLES_AUTHORID = "book.variables.authorId";
+    public static final String BOOK_GENRE_MANDATORY = "book.genre.mandatory";
 
 }
