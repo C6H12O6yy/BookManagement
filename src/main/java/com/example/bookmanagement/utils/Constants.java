@@ -72,4 +72,21 @@ public class Constants {
      */
     public static final String API_VERSION = "1.0.0";
 
+    /**
+     * Store procedure get Authors with Books
+     */
+    public static final String GET_AUTHOR_WITH_BOOKS="CALL GetAuthorsWithBooks()";
+    public static final String JWT_BEARER="Bearer ";
+    public static final String HEADER_AUTHORIZATION_STRING="Authorization";
+    public static final String LOG_USERNAME_EXCEPTION="Username exception occurred: {}";
+    public static final String LOG_BADCREDENTIALS_EXCEPTION="Badcredentials exception occurred: {}";
+
+    public static final String SIGNUP_SUCCESS = "Sign Up Success";
+
+    public static final String LOG_ACCESS_DENIED_EXCEPTION = "Access denied exception occurred: {}";
+
+    public static final String EMPTY_STRING = " ";
+
+    public static final String LOG_NOT_FOUND_EXCEPTION ="Not found exption occurred: {}";
+
 }

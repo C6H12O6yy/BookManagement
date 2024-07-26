@@ -17,5 +17,5 @@ public interface IBookRepository extends JpaRepository<Book, Long> {
      * @param title the title of the book to search for
      * @return an Optional containing the book with the specified title, or empty if not found
      */
-    Optional<Book> findByTitle(String title);
+    public Optional<Book> findByTitle(String title);
 }

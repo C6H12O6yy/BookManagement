@@ -37,7 +37,7 @@ public class Author {
     private String description;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = TableConstants.TABLE_AUTHOR_NAME, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> books;
 
     /**

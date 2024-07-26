@@ -7,6 +7,10 @@ import java.util.stream.Collectors;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.validation.FieldError;
 
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,7 +23,6 @@ import com.example.bookmanagement.utils.Constants;
 import com.example.bookmanagement.utils.MessagesConstants;
 
 import lombok.extern.slf4j.Slf4j;
-
 /**
  * Global exception handler for handling various exceptions across the application.
  */
@@ -40,25 +43,10 @@ public class GlobalExceptionHandler {
         log.error(Constants.LOG_DATA_ACCESS_EXCEPTION, exception.getMessage());
         ErrorDetails errorDetails = new ErrorDetails(new Date(),  exception.getMessage(),
         webRequest.getDescription(false));
-        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
-    /**
-     * Exception handler for general Exception.
-     *
-     * @param exception the exception that occurred
-     * @param webRequest the current web request
-     * @return ResponseEntity containing ErrorDetails
-     */
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDetails> handleGlobalException(Exception exception,
-                                                              WebRequest webRequest) {
-        log.error(Constants.LOG_EXCEPTION, exception.getMessage());                                        
-        ErrorDetails errorDetails = new ErrorDetails(new Date(),  exception.getMessage(),
-               webRequest.getDescription(false));
-        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
+    
     /**
      * Exception handler for MethodArgumentNotValidException (Validation errors).
      *
@@ -85,8 +73,25 @@ public class GlobalExceptionHandler {
      * @param webRequest  The current web request.
      * @return ResponseEntity containing an ErrorDetails object and HTTP status 404 (Not Found).
      */
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException exception,
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(NotFoundException exception,
+                                                                        WebRequest webRequest) {
+        log.error(Constants.LOG_NOT_FOUND_EXCEPTION, exception.getMessage());
+
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
+                webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Handles {@link IllegalArgumentException} and returns a response with HTTP status 404 (Not Found).
+     *
+     * @param exception the {@link IllegalArgumentException} that occurred
+     * @param webRequest the current web request
+     * @return ResponseEntity containing ErrorDetails with HTTP status 404
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorDetails> handleIllegalArgumentException(IllegalArgumentException exception,
                                                                         WebRequest webRequest) {
         log.error(Constants.LOG_RESOURCE_NOT_FOUND_EXCEPTION, exception.getMessage());
 
@@ -94,5 +99,67 @@ public class GlobalExceptionHandler {
                 webRequest.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
+
+    /**
+     * Handles general {@link Exception} and returns a response with HTTP status 500 (Internal Server Error).
+     *
+     * @param exception the {@link Exception} that occurred
+     * @param webRequest the current web request
+     * @return ResponseEntity containing ErrorDetails with HTTP status 500
+     */
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorDetails> handleGlobalException(Exception exception,
+                                                              WebRequest webRequest) {
+        log.error(Constants.LOG_EXCEPTION, exception.getMessage());                                        
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
+               webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * Handles {@link UsernameAlreadyExistsException} and returns a response with HTTP status 409 (Conflict).
+     *
+     * @param exception the {@link UsernameAlreadyExistsException} that occurred
+     * @param webRequest the current web request
+     * @return ResponseEntity containing ErrorDetails with HTTP status 409
+     */
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
+    public ResponseEntity<ErrorDetails> handleUsernameAlreadyExistsException(UsernameAlreadyExistsException exception,
+                                                                        WebRequest webRequest) {
+        log.error(Constants.LOG_USERNAME_EXCEPTION, exception.getMessage());
+
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
+                webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorDetails> handleBadCredentialsException(BadCredentialsException exception,
+                                                                        WebRequest webRequest) {
+        log.error(Constants.LOG_BADCREDENTIALS_EXCEPTION, exception.getMessage());
+
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
+                webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
+    }
+
+    /**
+     * Handles {@link AuthenticationException} and returns a response with HTTP status 401 (Unauthorized).
+     *
+     * @param exception the {@link AuthenticationException} that occurred
+     * @param webRequest the current web request
+     * @return ResponseEntity containing ErrorDetails with HTTP status 401
+     */
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorDetails> handleAuthenticationException(AuthenticationException exception,
+                                                                      WebRequest webRequest) {
+        log.error("Authentication Error: {}", exception.getMessage());
+
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), "Authentication failed.",
+                webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
+    }
+    
+
+    
 
 }

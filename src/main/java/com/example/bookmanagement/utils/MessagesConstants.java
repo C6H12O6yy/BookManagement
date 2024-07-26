@@ -95,6 +95,27 @@ public class MessagesConstants {
     /**
      * Key for the error message indicating that genre is mandatory.
      */
-    public static final String BOOK_GENRE_MANDATORY = "book.genre.mandatory";
+   // Validation and Error Messages for Book
+   public static final String BOOK_GENRE_MANDATORY = "book.genre.mandatory";
+
+   // Error Messages for User
+   public static final String USER_NOT_FOUND = "user.not-found";
+   public static final String PASSWORD_NOT_NULL = "user.password.not-null";
+   public static final String USER_NAME_NOT_NULL = "user.username.not-null";
+   public static final String USER_NAME_SIZE = "user.username.size";
+   public static final String PASSWORD_SIZE = "user.password.size";
+   public static final String USER_NOT_NULL = "user.not-null";
+   public static final String USER_NAME_ALREADY_EXIST = "user.username.already-exist";
+
+   // Error Messages for JWT Token
+   public static final String TOKEN_NOT_NULL = "jwt.token.not-null";
+
+   // Error Messages for Permission
+   public static final String PERMISSION_NOT_NULL = "permission.not-null";
+   public static final String PERMISSION_NOT_FOUND = "permission.not-found";
+
+   // Error Messages for Role
+   public static final String ROLE_NOT_NULL = "role.not-null";
+   public static final String ROLE_NOT_FOUND = "role.not-found";
 
 }

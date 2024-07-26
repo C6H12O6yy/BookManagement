@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.bookmanagement.configs.Translator;
 import com.example.bookmanagement.entities.Book;
-import com.example.bookmanagement.exception.ResourceNotFoundException;
+import com.example.bookmanagement.exception.NotFoundException;
 import com.example.bookmanagement.repositories.IBookRepository;
 import com.example.bookmanagement.services.IBookService;
+import com.example.bookmanagement.utils.Constants;
 import com.example.bookmanagement.utils.MessagesConstants;
 
 @Service
@@ -37,12 +38,12 @@ public class BookServiceImpl implements IBookService {
      * @param id          the ID of the book to update
      * @param bookDetails the updated details of the book
      * @return the updated book
-     * @throws ResourceNotFoundException if no book is found with the given ID
+     * @throws NotFoundException if no book is found with the given ID
      */
     @Override
     public Book updateBook(Long id, Book bookDetails) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(Translator.toLocale(MessagesConstants.BOOK_NOT_FOUND_ERROR) + id));
+                .orElseThrow(() -> new NotFoundException(Translator.toLocale(MessagesConstants.BOOK_NOT_FOUND_ERROR)+ Constants.EMPTY_STRING+ id));
 
         book.setTitle(bookDetails.getTitle());
         book.setPublishedDate(bookDetails.getPublishedDate());
@@ -57,12 +58,12 @@ public class BookServiceImpl implements IBookService {
      * Delete a book by ID.
      *
      * @param id the ID of the book to delete
-     * @throws ResourceNotFoundException if no book is found with the given ID
+     * @throws NotFoundException if no book is found with the given ID
      */
     @Override
     public void deleteBook(Long id) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(Translator.toLocale(MessagesConstants.BOOK_NOT_FOUND_ERROR) + id));
+                .orElseThrow(() -> new NotFoundException(Translator.toLocale(MessagesConstants.BOOK_NOT_FOUND_ERROR)+ Constants.EMPTY_STRING+ id));
         bookRepository.delete(book);
     }
 

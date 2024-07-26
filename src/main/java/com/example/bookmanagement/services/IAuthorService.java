@@ -39,8 +39,9 @@ public interface IAuthorService {
      *
      * @param id the ID of the author to update
      * @param authorRequest the request object containing updated author details
+     * @return author responses matching the search criteria
      */
-    public void update(final Long id, final AuthorRequest authorRequest);
+    public AuthorResponse update(final Long id, final AuthorRequest authorRequest);
 
     /**
      * Delete an author by ID.

@@ -9,10 +9,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.bookmanagement.dto.request.AuthorRequest;
 import com.example.bookmanagement.dto.response.AuthorResponse;
+import com.example.bookmanagement.entities.ERole;
 import com.example.bookmanagement.services.IAuthorService;
 import com.example.bookmanagement.utils.Constants;
 import com.example.bookmanagement.utils.MessagesConstants;
@@ -49,6 +51,7 @@ public class AuthorController {
                         @ApiResponse(code = 200, message = "Successfully retrieved authors"),
                         @ApiResponse(code = 500, message = "Internal server error")
         })
+        
         public ResponseEntity<Page<AuthorResponse>> getAllAuthors(
                         @RequestParam(defaultValue = Constants.DEFAULT_PAGE_NUMBER) int page,
                         @RequestParam(defaultValue = Constants.DEFAULT_PAGE_SIZE) int size) {
@@ -104,8 +107,7 @@ public class AuthorController {
          * @param authorRequest The request body containing updated author data.
          *                      Required fields include author's name, birth date,
          *                      nationality, and description.
-         * @return ResponseEntity with a success message indicating the author was
-         *         updated successfully.
+         * @return              AuthorResponse  objects 
          */
         @PutMapping("/{id}")
         @ApiOperation(value = "Update an existing author")
@@ -115,12 +117,11 @@ public class AuthorController {
                         @ApiResponse(code = 404, message = "Author not found"),
                         @ApiResponse(code = 500, message = "Internal server error")
         })
-        public ResponseEntity<String> updateAuthor(
+
+        public ResponseEntity<?> updateAuthor(
                         @ApiParam(value = "ID of the author to update", required = true) @PathVariable final Long id,
                         @ApiParam(value = "Author data to update", required = true) @Valid @RequestBody final AuthorRequest authorRequest) {
-                authorService.update(id, authorRequest);
-                String message = String.format(MessagesConstants.AUTHOR_UPDATE_SUCCESS, id);
-                return ResponseEntity.ok(message);
+                return ResponseEntity.ok( authorService.update(id, authorRequest));
         }
 
         /**

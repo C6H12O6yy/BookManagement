@@ -15,9 +15,10 @@ import com.example.bookmanagement.configs.Translator;
 import com.example.bookmanagement.dto.request.AuthorRequest;
 import com.example.bookmanagement.dto.response.AuthorResponse;
 import com.example.bookmanagement.entities.Author;
-import com.example.bookmanagement.exception.ResourceNotFoundException;
+import com.example.bookmanagement.exception.NotFoundException;
 import com.example.bookmanagement.repositories.IAuthorRepository;
 import com.example.bookmanagement.services.IAuthorService;
+import com.example.bookmanagement.utils.Constants;
 import com.example.bookmanagement.utils.MessagesConstants;
 
 @Service
@@ -66,11 +67,14 @@ public class AuthorServiceImpl implements IAuthorService {
      */
     @Override
     public AuthorResponse get(Long id) {
+        if(id==null){
+            throw new IllegalArgumentException("Id not null");
+        }
         Optional<Author> author = authorRepository.findById(id);
         if (author.isPresent()) {
             return modelMapper.map(author.get(), AuthorResponse.class);
         } else {
-            throw new ResourceNotFoundException(Translator.toLocale(MessagesConstants.AUTHOR_NOT_FOUND_ERROR)+id);
+            throw new NotFoundException(Translator.toLocale(MessagesConstants.AUTHOR_NOT_FOUND_ERROR)+Constants.EMPTY_STRING+id);
         }
     }
 
@@ -97,14 +101,14 @@ public class AuthorServiceImpl implements IAuthorService {
      */
     @Override
     @Transactional
-    public void update(Long id, AuthorRequest authorRequest) {
+    public AuthorResponse update(Long id, AuthorRequest authorRequest) {
         Optional<Author> existingAuthor = authorRepository.findById(id);
         if (existingAuthor.isPresent()) {
             Author author = existingAuthor.get();
             modelMapper.map(authorRequest, author);
-            authorRepository.save(author);
+            return modelMapper.map(authorRepository.save(author),AuthorResponse.class);
         } else {
-            throw new ResourceNotFoundException(Translator.toLocale(MessagesConstants.AUTHOR_NOT_FOUND_ERROR)+id);
+            throw new NotFoundException(Translator.toLocale(MessagesConstants.AUTHOR_NOT_FOUND_ERROR)+Constants.EMPTY_STRING+id);
         }
     }
 
@@ -121,7 +125,7 @@ public class AuthorServiceImpl implements IAuthorService {
         if (existingAuthor.isPresent()) {
             authorRepository.delete(existingAuthor.get());
         } else {
-            throw new ResourceNotFoundException(Translator.toLocale(MessagesConstants.AUTHOR_NOT_FOUND_ERROR)+id);
+            throw new NotFoundException(Translator.toLocale(MessagesConstants.AUTHOR_NOT_FOUND_ERROR)+Constants.EMPTY_STRING+id);
         }
     }
 
